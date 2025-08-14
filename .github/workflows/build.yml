@@ -24,19 +24,26 @@ jobs:
       - name: Setup Gradle
         uses: gradle/actions/setup-gradle@v4
 
-      - name: Build with Gradle
+      - name: Build debug
         run: |
-          ./gradlew zipDebug
-          ./gradlew zipRelease
+          ./gradlew clean zipDebug
+          mkdir debug
+          unzip module/release/Audit-Patch-*-debug.zip -d debug
 
       - name: Upload debug
         uses: actions/upload-artifact@v4
         with:
           name: Audit-Patch-debug
-          path: "./module/release/Audit-Patch-*-debug.zip"
+          path: "./debug/*"
+
+      - name: Build release
+        run: |
+          ./gradlew clean zipRelease
+          mkdir release
+          unzip module/release/Audit-Patch-*-release.zip -d release
 
       - name: Upload release
         uses: actions/upload-artifact@v4
         with:
           name: Audit-Patch-release
-          path: "./module/release/Audit-Patch-*-release.zip"
+          path: "./release/*"
