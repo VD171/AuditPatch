@@ -55,12 +55,17 @@ extract "$ZIPFILE" 'sepolicy.rule' "$TMPDIR"
 
 ui_print "- Extracting module files"
 extract "$ZIPFILE" 'module.prop'     "$MODPATH"
-extract "$ZIPFILE" 'post-fs-data.sh' "$MODPATH"
 extract "$ZIPFILE" 'service.sh'      "$MODPATH"
-extract "$ZIPFILE" 'zn_modules.txt'  "$MODPATH"
 mv "$TMPDIR/sepolicy.rule" "$MODPATH"
 
 mkdir "$MODPATH/lib"
+mkdir "$MODPATH/bin"
 
 ui_print "- Extracting $ARCH libraries"
-extract "$ZIPFILE" "lib/$ARCH/lib$SONAME.so" "$MODPATH/lib" true
+if [ "$ARCH" = "x86" ] || [ "$ARCH" = "x64" ]; then
+  extract "$ZIPFILE" "lib/x64/lib$SONAME.so" "$MODPATH/lib" true
+  extract "$ZIPFILE" "bin/x64/Injector" "$MODPATH/bin" true
+else
+  extract "$ZIPFILE" "lib/arm64/lib$SONAME.so" "$MODPATH/lib" true
+  extract "$ZIPFILE" "bin/arm64/Injector" "$MODPATH/bin" true
+fi

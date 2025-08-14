@@ -33,11 +33,6 @@ android {
         }
     }
     externalNativeBuild {
-        /*
-        ndkBuild {
-            path("src/main/cpp/Android.mk")
-        }
-        */
         cmake {
             path("src/main/cpp/CMakeLists.txt")
         }
@@ -96,6 +91,10 @@ androidComponents.onVariants { variant ->
                 val arch = abiMap[abi]
                 from(layout.buildDirectory.file("intermediates/stripped_native_libs/$variantLowered/strip${variantCapped}DebugSymbols/out/lib/$abi")) {
                     into("lib/$arch")
+                    exclude("**/libdobby.so")
+                }
+                from(layout.projectDirectory.file("src/main/cpp/third_party/Android-Ptrace-Injector/libs/$abi/Injector")) {
+                    into("bin/$arch")
                 }
             }
 

@@ -20,8 +20,8 @@ val gitCommitHash = "git rev-parse --verify --short HEAD".execute()
 
 // also the soname
 val moduleId by extra("auditpatch")
-val moduleName by extra("ZN - Audit Patch")
-val verName by extra("v1.1")
+val moduleName by extra("Audit Patch")
+val verName by extra("v0.1")
 val verCode by extra(gitCommitCount)
 val commitHash by extra(gitCommitHash)
 val abiList by extra(listOf("arm64-v8a", "x86_64"))

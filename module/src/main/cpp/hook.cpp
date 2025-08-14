@@ -3,13 +3,10 @@
 #include <cstdlib>
 #include <cstdarg>
 #include <vector>
-#include "zygisk_next_api.h"
+#include "dobby.h"
 
-#define LOGI(...) __android_log_print(ANDROID_LOG_INFO, "zn-auditpatch", __VA_ARGS__)
-#define LOGE(...) __android_log_print(ANDROID_LOG_ERROR, "zn-auditpatch", __VA_ARGS__)
-
-static ZygiskNextAPI api_table;
-void *handle;
+#define LOGI(...) __android_log_print(ANDROID_LOG_INFO, "auditpatch", __VA_ARGS__)
+#define LOGE(...) __android_log_print(ANDROID_LOG_ERROR, "auditpatch", __VA_ARGS__)
 
 static int (*old_vasprintf)(char **strp, const char *fmt, va_list ap) = nullptr;
 
@@ -64,26 +61,17 @@ static int my_vasprintf(char **strp, const char *fmt, va_list ap) {
     return result;
 }
 
-void onModuleLoaded(void *self_handle, const struct ZygiskNextAPI *api) {
-    memcpy(&api_table, api, sizeof(ZygiskNextAPI));
+__attribute__((constructor))
+void init(void) {
+    void *addr = DobbySymbolResolver("libc.so", "vasprintf");
+    if (!addr) {
+        LOGE("Failed to find vasprintf symbol");
+        return;
+    }
 
-    auto resolver = api_table.newSymbolResolver("libc.so", nullptr);
-    if (!resolver) return;
-
-    size_t sz;
-    auto addr = api_table.symbolLookup(resolver, "vasprintf", false, &sz);
-    api_table.freeSymbolResolver(resolver);
-
-    if (addr &&
-        api_table.inlineHook(addr, (void *) my_vasprintf, (void **) &old_vasprintf) == ZN_SUCCESS) {
-        LOGI("logd hook success");
+    if (DobbyHook(addr, (void*)my_vasprintf, (void**)&old_vasprintf) == 0) {
+        LOGI("vasprintf hooked successfully in logd!");
     } else {
-        LOGE("logd hook failure");
+        LOGE("vasprintf hook failed in logd");
     }
 }
-
-__attribute__((visibility("default")))
-struct ZygiskNextModule zn_module = {
-        .target_api_version = ZYGISK_NEXT_API_VERSION_1,
-        .onModuleLoaded = onModuleLoaded,
-};

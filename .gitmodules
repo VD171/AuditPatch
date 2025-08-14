@@ -1,0 +1,6 @@
+[submodule "module/src/main/cpp/third_party/Android-Ptrace-Injector"]
+	path = module/src/main/cpp/third_party/Android-Ptrace-Injector
+	url = https://github.com/brunoanc/Android-Ptrace-Injector
+[submodule "module/src/main/cpp/third_party/Dobby"]
+	path = module/src/main/cpp/third_party/Dobby
+	url = https://github.com/JingMatrix/Dobby
