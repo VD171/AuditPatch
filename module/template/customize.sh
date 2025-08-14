@@ -59,14 +59,14 @@ extract "$ZIPFILE" 'service.sh'      "$MODPATH"
 extract "$ZIPFILE" 'uninstall.sh'    "$MODPATH"
 mv "$TMPDIR/sepolicy.rule" "$MODPATH"
 
-mkdir "$MODPATH/lib"
+mkdir -p "$MODPATH/system/lib64"
 mkdir "$MODPATH/bin"
 
 ui_print "- Extracting $ARCH libraries"
 if [ "$ARCH" = "x86" ] || [ "$ARCH" = "x64" ]; then
-  extract "$ZIPFILE" "lib/x64/lib$SONAME.so" "$MODPATH/lib" true
+  extract "$ZIPFILE" "lib/x64/lib$SONAME.so" "$MODPATH/system/lib64" true
   extract "$ZIPFILE" "bin/x64/Injector" "$MODPATH/bin" true
 else
-  extract "$ZIPFILE" "lib/arm64/lib$SONAME.so" "$MODPATH/lib" true
+  extract "$ZIPFILE" "lib/arm64/lib$SONAME.so" "$MODPATH/system/lib64" true
   extract "$ZIPFILE" "bin/arm64/Injector" "$MODPATH/bin" true
 fi
