@@ -4,4 +4,4 @@ version=${versionName}
 versionCode=${versionCode}
 author=brunoanc
 description=Replace sensitive context in audit log.
-#updateJson=
+updateJson=https://raw.githubusercontent.com/brunoanc/AuditPatch/refs/heads/master/update.json

@@ -65,11 +65,11 @@ androidComponents.onVariants { variant ->
             into(moduleDir)
             from(rootProject.layout.projectDirectory.file("README.md"))
             from(layout.projectDirectory.file("template")) {
-                exclude("module.prop", "customize.sh", "post-fs-data.sh", "service.sh", "uninstall.sh", "zn_modules.txt")
+                exclude("module.prop", "customize.sh", "service.sh")
                 filter<FixCrLfFilter>("eol" to FixCrLfFilter.CrLf.newInstance("lf"))
             }
             from(layout.projectDirectory.file("template")) {
-                include("module.prop", "zn_modules.txt")
+                include("module.prop")
                 expand(
                     "moduleId" to moduleId,
                     "moduleName" to moduleName,
@@ -78,7 +78,7 @@ androidComponents.onVariants { variant ->
                 )
             }
             from(layout.projectDirectory.file("template")) {
-                include("customize.sh", "post-fs-data.sh", "service.sh", "uninstall.sh")
+                include("customize.sh", "service.sh")
                 val tokens = mapOf(
                     "DEBUG" to if (buildTypeLowered == "debug") "true" else "false",
                     "SONAME" to moduleId,

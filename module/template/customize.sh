@@ -56,7 +56,6 @@ extract "$ZIPFILE" 'sepolicy.rule' "$TMPDIR"
 ui_print "- Extracting module files"
 extract "$ZIPFILE" 'module.prop'     "$MODPATH"
 extract "$ZIPFILE" 'service.sh'      "$MODPATH"
-extract "$ZIPFILE" 'uninstall.sh'    "$MODPATH"
 mv "$TMPDIR/sepolicy.rule" "$MODPATH"
 
 mkdir -p "$MODPATH/system/lib64"

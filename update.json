@@ -1,0 +1,6 @@
+{
+    "version": "v0.2",
+    "versionCode": 2,
+    "zipUrl": "https://github.com/brunoanc/AuditPatch/releases/download/v0.2/Audit-Patch-release.zip",
+    "changelog": "https://raw.githubusercontent.com/brunoanc/AuditPatch/refs/heads/master/CHANGELOG.md"
+}
