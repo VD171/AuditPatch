@@ -25,22 +25,14 @@ static int my_vasprintf(char **strp, const char *fmt, va_list ap) {
         const char *source_contexts[] = {
             "tcontext=u:r:su:s0",
             "tcontext=u:r:magisk:s0",
-            "tcontext=u:r:proc_modules:s0",
             "tcontext=u:object_r:proc_modules:s0"
         };
         size_t source_contexts_len = sizeof(source_contexts) / sizeof(source_contexts[0]);
         for (size_t i = 0; i < source_contexts_len; i++) {
-            const char *source = source_contexts[i];
-            char *pos = strstr(*strp, source);
-            if (pos && !is_in_quotes(*strp, pos)) {
-                size_t source_len = strlen(source);
-                char *new_str = malloc(result + 1);
-                strcpy(new_str, *strp);
-                pos = new_str + (pos - *strp);
-                memmove(pos, pos + source_len, strlen(pos + source_len) + 1);
+            if (strstr(*strp, source_contexts[i])) {
                 free(*strp);
-                *strp = new_str;
-                return (int)strlen(new_str);
+                *strp = strdup("");
+                return 0;
             }
         }
     }
