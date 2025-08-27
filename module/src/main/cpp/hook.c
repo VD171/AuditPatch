@@ -28,7 +28,9 @@ static int my_vasprintf(char **strp, const char *fmt, va_list ap) {
 
         const char *source_contexts[] = {
             "tcontext=u:r:su:s0",
-            "tcontext=u:r:magisk:s0"
+            "tcontext=u:r:magisk:s0",
+            "tcontext=u:r:proc_modules:s0",
+            "tcontext=u:object_r:proc_modules:s0"
         };
 
         size_t source_contexts_len = sizeof(source_contexts) / sizeof(source_contexts[0]);
