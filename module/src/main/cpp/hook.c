@@ -29,10 +29,21 @@ static int my_vasprintf(char **strp, const char *fmt, va_list ap) {
         };
         size_t source_contexts_len = sizeof(source_contexts) / sizeof(source_contexts[0]);
         for (size_t i = 0; i < source_contexts_len; i++) {
-            if (strstr(*strp, source_contexts[i])) {
+            const char *source = source_contexts[i];
+            char *pos = strstr(*strp, source);
+            if (pos && !is_in_quotes(*strp, pos)) {
+                char *line_start = pos;
+                while (line_start > *strp && *(line_start - 1) != '\n') line_start--;
+                char *line_end = strchr(pos, '\n');
+                if (line_end) line_end++;
+                else line_end = *strp + strlen(*strp);
+                size_t new_len = strlen(*strp) - (line_end - line_start);
+                char *new_str = malloc(new_len + 1);
+                strncpy(new_str, *strp, line_start - *strp);
+                strcpy(new_str + (line_start - *strp), line_end);
                 free(*strp);
-                *strp = strdup("");
-                return 0;
+                *strp = new_str;
+                return (int)new_len;
             }
         }
     }
