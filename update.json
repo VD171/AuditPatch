@@ -1,6 +1,6 @@
 {
-    "version": "v0.2",
+    "version": "v0.2-vd_priv8",
     "versionCode": 11,
-    "zipUrl": "https://github.com/brunoanc/AuditPatch/releases/download/v0.2/Audit-Patch-release.zip",
-    "changelog": "https://raw.githubusercontent.com/brunoanc/AuditPatch/refs/heads/master/CHANGELOG.md"
+    "zipUrl": "https://github.com/VD171/AuditPatch/releases/download/v0.2-vd_priv8/Audit.Patch.by.@VD_Priv8.v0.2-vd_priv8.zip",
+    "changelog": "https://raw.githubusercontent.com/VD171/AuditPatch/refs/heads/master/CHANGELOG.md"
 }

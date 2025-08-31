@@ -1,3 +1,4 @@
-## AuditPatch v0.2
+## AuditPatch v0.2-vd_priv8
 
-- Refactored the service.sh script.
+- Fix **Find Root File In Sniff** by Hunter and **SELinux context leak** by Disclosure.
+- Add 32bits support.
